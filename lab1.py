@@ -45,7 +45,9 @@ while (w!=5):
         DFS(a,start_a,start_b,end_a[0],end_b[0])
         o = int(input("Desea regresar al menu? \n1.Si\n2.No"))
         if (o ==2):
-            w=5            
+            w=5
+    if(w==3):
+        path = aStar(a, start[0], lista_destinos[1])
         
 print("Gracias por chequear el programa :)")
 

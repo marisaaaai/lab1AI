@@ -53,8 +53,8 @@ def discretizador(imagen):
         g = 0
         b = 0
         mean = 0
-    with open('outfile.txt','wb') as f:
-        np.savetxt(f, a, fmt='%.2f')            
+#     with open('outfile.txt','wb') as f:
+#         np.savetxt(f, a, fmt='%.2f')            
 
     rojos = np.where(a == 2)
     listOfCoordinates= list(zip(rojos[0], rojos[1]))
@@ -146,9 +146,12 @@ def BFS_paths(a,start,end):
 
 def BFS(a,start,end):
     def make_step(k):
+        #Escaneamos la matriz con una doble loop 
       for i in range(len(m)):
         for j in range(len(m[i])):
           if m[i][j] == k:
+              #si se encuentra con un numero k chquear si las celdas adyacentes o son no paredes o si no tienen otro numero que 0 o 1
+              #si cumple las condiciones le asigna k+1
             if i>0 and m[i-1][j] == 0 and a[i-1][j] == 0:
               m[i-1][j] = k + 1
             if j>0 and m[i][j-1] == 0 and a[i][j-1] == 0:
@@ -208,7 +211,10 @@ def BFS(a,start,end):
         make_step(k)
         draw_matrix(a, m)
 
-
+    #ir al punto final
+        #buscar k-1 ir a esa celda y quitarle uno a k
+        #repetir hasta llegar a donde k=1
+        #guaardar las celdas a the_path
     i, j = end
     k = m[i][j]
     the_path = [(i,j)]
@@ -328,8 +334,54 @@ def DFS(p,start_a,start_b,end_a,end_b):
     go_to(start_i, start_j)
     im= images[len(images)-2]
     im.show()
-    '''
+
+#Calcular la distancia manhattan  
+def h(cell1, cell2):
+    x1,y1 = cell1
+    x2,y2 = cell2
     
-    images[0].save('maze.gif',
-               save_all=True, append_images=images[1:],
-               optimize=False, duration=50, loop=0)'''
+    return abs(x1-x2) + abs(y1-y2)
+
+#Recibe la matriz 
+def aStar(m, start, end):
+    #g_score = {cell:float('inf') for cell in m}
+    for i in range(len(m)):
+            for j in range(len(m[i])):
+                g_score = [m[i],'inf']
+    g_score[start, 1] = 0
+    f_score = {cell:float('inf') for cell in m}
+    f_score[start] = h(start, (1,1)) 
+    
+    open = PriorityQueue()
+    open.put((h(start,(1,1)),h(start,(1,1)),start))
+    aPath = {}
+    while not open.empty():
+        currCell = open.get()[2]
+        if currCell == (1,1):
+            break
+        for d in 'ESNW':
+            if m.maze_map[currCell][d] == True:
+                if d == 'E':
+                    childCell = (currCell[0], currCell[1]+1)
+                if d == 'W':
+                    childCell = (currCell[0], currCell[1]-1)
+                if d == 'N':
+                    childCell = (currCell[0]-1, currCell[1])
+                if d == 'S':
+                    childCell = (currCell[0]+1, currCell[1])
+                    
+                temp_g_score = g_score[currCell]+1
+                temp_f_score = temp_g_score + h(childCell,(1,1))
+                
+                if temp_f_score < f_score[childCell]:
+                    g_score[childCell] = temp_g_score
+                    f_score[ChildCell] = temp_f_score
+                    open.put((temp_f_score, h(childCell,(1,1)), childCell))
+                    aPath[childCell] = currCell
+    fwdPath = {}
+    cell = (1,1)
+    while cell != start:
+        fwdPath[aPath[cell]] = cell
+        cell = aPath[cell]
+    return fwdPath
+
