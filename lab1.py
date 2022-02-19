@@ -1,10 +1,11 @@
+'''
+Laboratorio 1
+Maria Montoya 19169
+Maria Morales 19145
+'''
 from PIL import Image, ImageDraw
 from modulos import *
 import gc
-
-import sys
-import io
-
 
 
 

@@ -1,3 +1,8 @@
+'''
+Laboratorio 1
+Maria Montoya 19169
+Maria Morales 19145
+'''
 from PIL import Image, ImageDraw
 import numpy as np
 
@@ -9,7 +14,7 @@ images = []
 
 def discretizador(imagen):
     image = Image.open(imagen)
-    new_image = image.resize((25, 25))
+    new_image = image.resize((50, 50))
 
     temp = np.array(new_image)
     r = 0
@@ -93,7 +98,12 @@ def discretizador(imagen):
         mean = 0
     p= p.astype(int)
     return p,start,cantidad_destinos
-               
+        
+'''
+Codigo extraido de:
+https://levelup.gitconnected.com/solve-a-maze-with-python-e9f0580979a1
+'''
+
 def BFS_paths(a,start,end):
     def make_step(k):
       for i in range(len(m)):
@@ -143,7 +153,10 @@ def BFS_paths(a,start,end):
         k -= 1
 
     return len(the_path)
-
+'''
+Codigo extraido de:
+https://levelup.gitconnected.com/solve-a-maze-with-python-e9f0580979a1
+'''
 def BFS(a,start,end):
     def make_step(k):
         #Escaneamos la matriz con una doble loop 
@@ -186,13 +199,13 @@ def BFS(a,start,end):
                 if m[i][j] > 0:
                     r = borders
                     draw.ellipse((j * zoom + r, i * zoom + r, j * zoom + zoom - r - 1, i * zoom + zoom - r - 1),
-                                   fill=(255,0,0))
+                                   fill=(0,255,0))
         for u in range(len(the_path)-1):
             y = the_path[u][0]*zoom + int(zoom/2)
             x = the_path[u][1]*zoom + int(zoom/2)
             y1 = the_path[u+1][0]*zoom + int(zoom/2)
             x1 = the_path[u+1][1]*zoom + int(zoom/2)
-            draw.line((x,y,x1,y1), fill=(255, 0,0), width=5)
+            draw.line((x,y,x1,y1), fill=(0, 255,0), width=5)
         draw.rectangle((0, 0, zoom * len(a[0]), zoom * len(a)), outline=(0,255,0), width=2)
         images.append(im)
 
@@ -243,11 +256,14 @@ def BFS(a,start,end):
         else:
             draw_matrix(a, m)
 
-    print_m(m)
+    #print_m(m)
 
     im= images[len(images)-2]
     im.show()
-
+'''
+Codigo extraido de:
+https://levelup.gitconnected.com/solve-a-maze-with-python-e9f0580979a1
+'''
 def DFS(p,start_a,start_b,end_a,end_b):
     images = []
     lenghts=[]
@@ -287,7 +303,7 @@ def DFS(p,start_a,start_b,end_a,end_b):
             x = the_path[u][1]*zoom + int(zoom/2)
             y1 = the_path[u+1][0]*zoom + int(zoom/2)
             x1 = the_path[u+1][1]*zoom + int(zoom/2)
-            draw.line((x,y,x1,y1), fill=(255, 0, 0), width=5)
+            draw.line((x,y,x1,y1), fill=(0, 255, 0), width=5)
         draw.rectangle((0, 0, zoom * len(a[0]), zoom * len(a)), outline=(0, 255, 0), width=2)
         images.append(im)
         
@@ -309,7 +325,7 @@ def DFS(p,start_a,start_b,end_a,end_b):
         if (i, j) == (end_i, end_j):
             lent = len(path_so_far)
             
-            print("Found!", path_so_far)
+            #print(path_so_far)
             for animate in range(10):
                 if animate % 2 == 0:
                     draw_matrix(a, path_so_far)
@@ -342,46 +358,159 @@ def h(cell1, cell2):
     
     return abs(x1-x2) + abs(y1-y2)
 
+'''
+Codigo extraido de:
+https://levelup.gitconnected.com/an-animated-guide-to-implementing-dfs-in-python-to-find-a-path-1e939b7b8599
+'''
 #Recibe la matriz 
 def aStar(m, start, end):
-    #g_score = {cell:float('inf') for cell in m}
-    for i in range(len(m)):
-            for j in range(len(m[i])):
-                g_score = [m[i],'inf']
-    g_score[start, 1] = 0
-    f_score = {cell:float('inf') for cell in m}
-    f_score[start] = h(start, (1,1)) 
     
-    open = PriorityQueue()
+    maze = []
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    maze.append([" "," ", " ", " ", " ", " ", " "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "," "," ", " "," "," "])
+    
+    empty = []
+    for i in range (1,26):
+        empty.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+    
+    
+    for i in range(len(maze)):
+        for j in range(len(maze)):
+            if m[i][j][0] == 0 and m[i][j][1] == 0:
+                empty[i][j] = 1
+                
+        
+    dictionary={}
+    grid=[]
+    g_score={cell:float('inf') for cell in grid}
+    g_score[start]=0
+    f_score={cell:float('inf') for cell in grid}
+    f_score[start]=h(start,(1,1))
+    
+    open=PriorityQueue()
     open.put((h(start,(1,1)),h(start,(1,1)),start))
-    aPath = {}
+    aPath={}
+        
+
+    for i in range (1,26):
+        for j in range(1,26):
+            grid.append((j,i))
+
+    for i in grid:
+        dictionary[i]= {'E':0,'W': 0, 'N': 0, 'S': 0}
+        
+    for x in grid:
+        i,j=x
+        if empty[i-1][j-1]==0:
+            if i==1 and j==1:
+                if empty[i-1][j]==0:
+                    dictionary[(i,j)]['W']=1
+                if empty[i][j-1]==0:
+                    dictionary[(i,j)]['S']=1
+            elif i==20 and j==20:
+                if empty[i-2][j-1]==0:
+                    dictionary[(i,j)]['N']=1
+                if empty[i-1][j-2]==0:
+                    dictionary[(i,j)]['E']=1
+            elif i==1 and j==20:
+                if empty[i][j-1]==0:
+                    dictionary[(i,j)]['W']=1
+                if empty[i-1][j-2]==0:
+                    dictionary[(i,j)]['S']=1
+            elif i==20 and j==1:
+                if empty[i-2][j-1]==0:
+                    dictionary[(i,j)]['N']=1
+                if empty[i-1][j]==0:
+                    dictionary[(i,j)]['E']=1
+            elif j==1:
+                if empty[i-2][j-1]==0:
+                    dictionary[(i,j)]['N']=1
+                if empty[i][j-1]==0:
+                    dictionary[(i,j)]['S']=1
+                if empty[i-1][j]==0:
+                    dictionary[(i,j)]['E']=1
+            elif j==20:
+                if empty[i][j-1]==0:
+                    dictionary[(i,j)]['S']=1
+                if empty[i-1][j-2]==0:
+                    dictionary[(i,j)]['W']=1
+                if empty[i-2][j-1]==0:
+                    dictionary[(i,j)]['N']=1
+            elif i==1:
+                if empty[i-1][j-2]==0:
+                    dictionary[(i,j)]['W']=1
+                if empty[i-1][j]==0:
+                    dictionary[(i,j)]['E']=1
+                if empty[i][j-1]==0:
+                    dictionary[(i,j)]['S']=1
+            elif i==20:
+                if empty[i-1][j-2]==0:
+                    dictionary[(i,j)]['W']=1
+                if empty[i-1][j]==0:
+                    dictionary[(i,j)]['E']=1
+                if empty[i-2][j-1]==0:
+                    dictionary[(i,j)]['N']=1
+            else:
+                if empty[i-1][j-2]==0:
+                    dictionary[(i,j)]['W']=1
+                if empty[i-1][j]==0:
+                    dictionary[(i,j)]['E']=1
+                if empty[i][j-1]==0:
+                    dictionary[(i,j)]['S']=1
+                if empty[i-2][j-1]==0:
+                    dictionary[(i,j)]['N']=1
     while not open.empty():
-        currCell = open.get()[2]
-        if currCell == (1,1):
+        currCell=open.get()[2]
+        if currCell==(end1):
             break
         for d in 'ESNW':
-            if m.maze_map[currCell][d] == True:
-                if d == 'E':
-                    childCell = (currCell[0], currCell[1]+1)
-                if d == 'W':
-                    childCell = (currCell[0], currCell[1]-1)
-                if d == 'N':
-                    childCell = (currCell[0]-1, currCell[1])
-                if d == 'S':
-                    childCell = (currCell[0]+1, currCell[1])
-                    
-                temp_g_score = g_score[currCell]+1
-                temp_f_score = temp_g_score + h(childCell,(1,1))
-                
-                if temp_f_score < f_score[childCell]:
-                    g_score[childCell] = temp_g_score
-                    f_score[ChildCell] = temp_f_score
-                    open.put((temp_f_score, h(childCell,(1,1)), childCell))
-                    aPath[childCell] = currCell
-    fwdPath = {}
-    cell = (1,1)
-    while cell != start:
-        fwdPath[aPath[cell]] = cell
-        cell = aPath[cell]
-    return fwdPath
+            if dictionary[currCell][d]==True:
+                if d=='E':
+                    childCell=(currCell[0],currCell[1]+1)
+                if d=='W':
+                    childCell=(currCell[0],currCell[1]-1)
+                if d=='N':
+                    childCell=(currCell[0]-1,currCell[1])
+                if d=='S':
+                    childCell=(currCell[0]+1,currCell[1])
 
+                temp_g_score=g_score[currCell]+1
+                temp_f_score=temp_g_score+h(childCell,(1,1))
+
+                if temp_f_score < f_score[childCell]:
+                    g_score[childCell]= temp_g_score
+                    f_score[childCell]= temp_f_score
+                    open.put((temp_f_score,h(childCell,(1,1)),childCell))
+                    aPath[childCell]=currCell
+    fwdPath={}
+    cell=(end)
+    
+    while cell!=start:
+        fwdPath[aPath[cell]]=cell
+        cell=aPath[cell]
+        
+    return fwdPath 
+    
